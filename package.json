@@ -1,0 +1,26 @@
+{
+  "name": "project0",
+  "version": "1.0.0",
+  "description": "Project 0 for Revature which consists in making a RESTful API using Typescript and Express",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/200406-java-react-usf/jose_angeles_p0.git"
+  },
+  "author": "Jose Angeles",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/200406-java-react-usf/jose_angeles_p0/issues"
+  },
+  "homepage": "https://github.com/200406-java-react-usf/jose_angeles_p0#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "jest": "^25.5.1",
+    "typescript": "^3.8.3"
+  }
+}
