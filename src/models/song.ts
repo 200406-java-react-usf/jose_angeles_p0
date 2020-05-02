@@ -1,4 +1,4 @@
-export class Track {
+export class Song {
     id: number;
     name: string;
 
