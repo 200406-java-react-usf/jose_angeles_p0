@@ -1,0 +1,1 @@
+import {Album} from '../models/album';
