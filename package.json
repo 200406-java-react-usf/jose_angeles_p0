@@ -4,7 +4,8 @@
   "description": "Project 0 for Revature which consists in making a RESTful API using Typescript and Express",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "tsc && node ./build.index.js",
+    "test": "jest --watch --no-cache"
   },
   "repository": {
     "type": "git",
@@ -17,8 +18,11 @@
   },
   "homepage": "https://github.com/200406-java-react-usf/jose_angeles_p0#readme",
   "dependencies": {
+    "@types/pg": "^7.14.3",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "express-session": "^1.17.1"
+    "express-session": "^1.17.1",
+    "pg": "^8.0.3"
   },
   "devDependencies": {
     "@types/express": "^4.17.6",
