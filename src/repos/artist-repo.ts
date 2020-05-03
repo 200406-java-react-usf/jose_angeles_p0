@@ -53,7 +53,7 @@ export class ArtistRepository implements CrudRepository<Artist>{
             return newArtist;
 
         } catch (e) {
-            throw (e);
+            throw new InternalServerError();
         } finally {
             client && client.release();
         }
@@ -63,7 +63,7 @@ export class ArtistRepository implements CrudRepository<Artist>{
         let client: PoolClient;
         try {
             client = await connectionPool.connect();
-            let sql = `${this.baseQuery} where a.id = $1`;
+            let sql = `update artist set artist_id = $1, artist_name = $2 where artist.id = `;
             let rs = await client.query(sql);
             return true;
 
