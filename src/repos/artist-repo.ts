@@ -28,7 +28,7 @@ export class ArtistRepository implements CrudRepository<Artist>{
             client && client.release();
         }
     };
-    async getNameById(id: number): Promise<Artist> {
+    async getById(id: number): Promise<Artist> {
         let client: PoolClient;
         try {
             client = await connectionPool.connect();
