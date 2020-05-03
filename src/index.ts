@@ -1,9 +1,7 @@
 import dotenv from 'dotenv';
 import express from 'express';
-import fs from 'fs';
-import morgan from 'morgan';
-import path from 'path';
 
+import {ArtistRouter} from './routers/artist-router';
 import {Pool} from 'pg';
 
 // environment configuration
@@ -18,3 +16,12 @@ export const connectionPool: Pool = new Pool({
     password: process.env['DB_PASSWORD'],
     max: 5
 });
+
+// Web server configuration 
+const app = express();
+app.use('/', express.json());
+app.use('/artists', ArtistRouter);
+
+app.listen(8080, () => {
+    console.log('Project0 running and listening at http://localhost:8080');  
+})
