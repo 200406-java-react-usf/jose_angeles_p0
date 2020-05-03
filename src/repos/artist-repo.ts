@@ -8,7 +8,7 @@ import {
 } from '../errors/errors';
 import {PoolClient} from 'pg';
 import {connectionPool} from '..';
-import {mapArtistResultSet} from '../util/artist-set-mapper';
+import {mapArtistResultSet} from '../util/result-set-mapper';
 
 
 export class ArtistRepository implements CrudRepository<Artist>{
