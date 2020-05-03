@@ -11,7 +11,7 @@ import {
 
 
 
-export class UserService {
+export class ArtistService {
     constructor (private artistRepo: ArtistRepository) {
         this.artistRepo = artistRepo;
     };
