@@ -59,16 +59,16 @@ export class ArtistRepository implements CrudRepository<Artist>{
         }
     };
 
-    async update(artist: Artist): Promise<boolean> {
+    async update(updatedArtist: Artist): Promise<boolean> {
         let client: PoolClient;
         try {
             client = await connectionPool.connect();
-            let sql = `update artist set artist_id = $1, artist_name = $2 where artist.id = `;
-            let rs = await client.query(sql);
+            let sql = `update artist set artist_name = $2 where artist.id = $1`;
+            let rs = await client.query(sql, [updatedArtist.name]);
+            updatedArtist.id = rs.rows[0].id;
             return true;
-
         } catch (e) {
-            throw (e);
+            throw new InternalServerError();
         } finally {
             client && client.release();
         }
@@ -78,7 +78,7 @@ export class ArtistRepository implements CrudRepository<Artist>{
         let client: PoolClient;
         try {
             client = await connectionPool.connect();
-            let sql = `${this.baseQuery} where a.id = $1`;
+            let sql = `delete from artist a where a.artist_id = $1`;
             let rs = await client.query(sql);
             return true;
 
@@ -88,5 +88,4 @@ export class ArtistRepository implements CrudRepository<Artist>{
             client && client.release();
         }
     }
-
 }
