@@ -10,4 +10,4 @@ export function mapArtistResultSet(resultSet: ArtistSchema): Artist {
         resultSet.id,
         resultSet.name
     );   
-}
+};

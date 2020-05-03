@@ -6,23 +6,80 @@ import {mapArtistResultSet} from '../util/artist-set-mapper';
 
 
 export class ArtistRepository implements CrudRepository<Artist>{
-    async getAll(): Promise<Artist[]>{
+    baseQuery = `select a.id, a.name from artist as a`;
 
+    async getAll(): Promise<Artist[]>{
+        let client: PoolClient;
+        try {
+            client = await connectionPool.connect();
+            let sql = this.baseQuery;
+            let rs = await client.query(sql); // rs = ResultSet
+            return rs.rows.map(mapArtistResultSet);
+
+        } catch (e) {
+            throw (e);
+        } finally {
+            client && client.release();
+        }
     };
     async getNameById(id: number): Promise<Artist> {
+        let client: PoolClient;
+        try {
+            client = await connectionPool.connect();
+            let sql = `${this.baseQuery} where a.id = $1`;
+            let rs = await client.query(sql);
+            return mapArtistResultSet(rs.rows[0]);
 
+        } catch (e) {
+            throw (e);
+        } finally {
+            client && client.release();
+        }
     };
 
-    async addNew(newArtist: Artist): Promise<boolean> {
+    async addNew(newArtist: Artist): Promise<Artist> {
+        let client: PoolClient;
+        try {
+            client = await connectionPool.connect();
+            let sql = `insert into artist (artist_name) values ($1) returning artist_id`;
+            let rs = await client.query(sql); // rs = ResultSet
+            return Artist;
 
+        } catch (e) {
+            throw (e);
+        } finally {
+            client && client.release();
+        }
     };
 
     async update(artist: Artist): Promise<boolean> {
+        let client: PoolClient;
+        try {
+            client = await connectionPool.connect();
+            let sql = `${this.baseQuery} where a.id = $1`;
+            let rs = await client.query(sql);
+            return true;
 
+        } catch (e) {
+            throw (e);
+        } finally {
+            client && client.release();
+        }
     };
 
     async deleteById(id: number): Promise<boolean> {
+        let client: PoolClient;
+        try {
+            client = await connectionPool.connect();
+            let sql = `${this.baseQuery} where a.id = $1`;
+            let rs = await client.query(sql);
+            return true;
 
+        } catch (e) {
+            throw (e);
+        } finally {
+            client && client.release();
+        }
     }
 
 }
