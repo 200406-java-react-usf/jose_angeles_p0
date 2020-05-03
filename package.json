@@ -4,7 +4,7 @@
   "description": "Project 0 for Revature which consists in making a RESTful API using Typescript and Express",
   "main": "./build/index.js",
   "scripts": {
-    "start": "tsc && node ./build.index.js",
+    "start": "tsc && node ./build/index.js",
     "test": "jest --watch --no-cache"
   },
   "repository": {
