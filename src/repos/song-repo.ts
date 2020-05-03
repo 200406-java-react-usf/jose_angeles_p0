@@ -32,12 +32,12 @@ export class SongRepository implements CrudRepository<Song>{
         let client: PoolClient;
         try {
             client = await connectionPool.connect();
-            let sql = `${this.baseQuery} where a.id = $1`;
+            let sql = `${this.baseQuery} where s.id = $1`;
             let rs = await client.query(sql);
             return mapSongResultSet(rs.rows[0]);
 
         } catch (e) {
-            throw (e);
+            throw new InternalServerError();
         } finally {
             client && client.release();
         }
