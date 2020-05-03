@@ -1,4 +1,4 @@
 export interface ArtistSchema {
-    id: number;
-    name: string;
+    artist_id: number;
+    artist_name: string;
 };

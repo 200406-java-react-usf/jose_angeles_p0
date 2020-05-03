@@ -7,7 +7,7 @@ export function mapArtistResultSet(resultSet: ArtistSchema): Artist {
     };
 
     return new Artist (
-        resultSet.id,
-        resultSet.name
+        resultSet.artist_id,
+        resultSet.artist_name
     );   
 };
