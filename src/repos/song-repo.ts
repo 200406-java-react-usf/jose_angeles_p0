@@ -32,8 +32,8 @@ export class SongRepository implements CrudRepository<Song>{
         let client: PoolClient;
         try {
             client = await connectionPool.connect();
-            let sql = `${this.baseQuery} where s.id = $1`;
-            let rs = await client.query(sql);
+            let sql = `${this.baseQuery} where s.song_id = $1`;
+            let rs = await client.query(sql, [id]);
             return mapSongResultSet(rs.rows[0]);
 
         } catch (e) {

@@ -12,7 +12,7 @@ import {mapPlaylistResultSet} from '../util/result-set-mapper';
 
 
 export class PlaylistRepository implements CrudRepository<Playlist>{
-    baseQuery = `select p.playlist_id, p.playlist_name from playlist s`;
+    baseQuery = `select playlist_id, playlist_name from playlist`;
 
     async getAll(): Promise<Playlist[]>{
         let client: PoolClient;
@@ -32,8 +32,8 @@ export class PlaylistRepository implements CrudRepository<Playlist>{
         let client: PoolClient;
         try {
             client = await connectionPool.connect();
-            let sql = `${this.baseQuery} where p.id = $1`;
-            let rs = await client.query(sql);
+            let sql = `${this.baseQuery} where playlist_id = $1`;
+            let rs = await client.query(sql,[id]);
             return mapPlaylistResultSet(rs.rows[0]);
 
         } catch (e) {

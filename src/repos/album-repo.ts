@@ -32,12 +32,12 @@ export class AlbumRepository implements CrudRepository<Album>{
         let client: PoolClient;
         try {
             client = await connectionPool.connect();
-            let sql = `${this.baseQuery} where a.id = $1`;
-            let rs = await client.query(sql);
+            let sql = `${this.baseQuery} where a.album_id = $1`;
+            let rs = await client.query(sql, [id]);
             return mapAlbumResultSet(rs.rows[0]);
 
         } catch (e) {
-            throw (e);
+            throw new InternalServerError();
         } finally {
             client && client.release();
         }
@@ -47,7 +47,7 @@ export class AlbumRepository implements CrudRepository<Album>{
         let client: PoolClient;
         try {
             client = await connectionPool.connect();
-            let sql = `insert into album (album_name) values ($1)`;
+            let sql = `insert into album (album_name, year_released) values ($1, $2)`;
             let rs = await client.query(sql, [newAlbum.name]); // rs = ResultSet
             newAlbum.id = rs.rows[0].id;
             return newAlbum;
