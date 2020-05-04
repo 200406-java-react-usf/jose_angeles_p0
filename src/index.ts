@@ -1,7 +1,10 @@
 import dotenv from 'dotenv';
 import express from 'express';
 
-import {ArtistRouter} from './routers/artist-router';
+import { ArtistRouter } from './routers/artist-router';
+import { AlbumRouter } from './routers/album-router';
+import { SongRouter } from './routers/song-router';
+import { PlaylistRouter } from './routers/playlist-router';
 import {Pool} from 'pg';
 
 // environment configuration
@@ -21,6 +24,9 @@ export const connectionPool: Pool = new Pool({
 const app = express();
 app.use('/', express.json());
 app.use('/artists', ArtistRouter);
+app.use('/albums', AlbumRouter);
+app.use('/songs', SongRouter);
+app.use('/playlists', PlaylistRouter);
 
 app.listen(8080, () => {
     console.log('Project0 running and listening at http://localhost:8080');  

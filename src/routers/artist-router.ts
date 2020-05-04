@@ -1,8 +1,5 @@
-import url from 'url';
 import express from 'express';
 import AppConfig from '../config/app';
-import { isEmptyObject } from '../util/validator';
-
 
 export const ArtistRouter = express.Router();
 

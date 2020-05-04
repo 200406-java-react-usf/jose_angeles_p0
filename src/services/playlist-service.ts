@@ -14,7 +14,7 @@ export class PlaylistService {
         this.PlaylistRepo = PlaylistRepo;
     };
 
-    async getAllSongs(): Promise<Playlist[]> {
+    async getAllPlaylists(): Promise<Playlist[]> {
         let playlists = await this.PlaylistRepo.getAll();
         if (playlists.length == 0) {
             throw new ResourceNotFoundError();
@@ -22,7 +22,7 @@ export class PlaylistService {
         return playlists;
     };
 
-    async getPlaylistsById(id: number): Promise<Playlist> {
+    async getPlaylistById(id: number): Promise<Playlist> {
         if (!isValidId(id)) {
             throw new BadRequestError();
         }
