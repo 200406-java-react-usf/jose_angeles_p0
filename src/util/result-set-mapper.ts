@@ -1,6 +1,5 @@
-import { ArtistSchema, AlbumSchema, SongSchema, PlaylistSchema } from './schemas';
+import { ArtistSchema, SongSchema, PlaylistSchema } from './schemas';
 import { Artist } from '../models/artist';
-import { Album } from '../models/album';
 import { Song } from '../models/song';
 import { Playlist } from '../models/playlist';
 
@@ -13,18 +12,6 @@ export function mapArtistResultSet(resultSet: ArtistSchema): Artist {
         resultSet.artist_id,
         resultSet.artist_name
     );   
-};
-
-export function mapAlbumResultSet(resultSet: AlbumSchema): Album {
-    if(!resultSet) {
-        return {} as Album;
-    };
-
-    return new Album (
-        resultSet.album_id,
-        resultSet.album_name,
-        resultSet.year_released
-    );
 };
 
 export function mapSongResultSet(resultSet: SongSchema): Song {

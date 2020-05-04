@@ -3,13 +3,6 @@ export interface ArtistSchema {
     artist_name: string;
 };
 
-export interface AlbumSchema {
-    album_id: number,
-    album_name: string,
-    year_released: string,
-    artist_id: number
-};
-
 export interface SongSchema {
     song_id: number,
     song_name: string,
