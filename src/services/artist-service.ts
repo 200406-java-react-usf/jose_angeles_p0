@@ -36,7 +36,7 @@ export class ArtistService {
     async addNewArtist(newArtist: Artist): Promise<Artist> {
         try {
             if(!isValidObject(newArtist, 'id')){
-                throw new BadRequestError('Invalid property values found in provided user.')
+                throw new BadRequestError('Invalid property values found in provided artist.')
             }
 
             const persistedArtist = await this.artistRepo.addNew(newArtist);

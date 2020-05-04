@@ -1,5 +1,4 @@
 import {Album} from '../models/album';
-import {Artist} from '../models/artist';
 import {CrudRepository} from './crud-repo';
 import {
     NotImplementedError, 

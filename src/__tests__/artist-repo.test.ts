@@ -1,7 +1,7 @@
 import { ArtistRepository } from '../repos/artist-repo';
 import * as mockIndex from '..';
 import * as mockMapper from '../util/result-set-mapper';
-import { Artist } from '../models/artist';
+import { Artist } from '../models/album';
 import { release } from 'os';
 
 

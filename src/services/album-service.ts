@@ -36,7 +36,7 @@ export class AlbumService {
     async addNewAlbum(newAlbum: Album): Promise<Album> {
         try {
             if(!isValidObject(newAlbum, 'id')){
-                throw new BadRequestError('Invalid property values found in provided user.')
+                throw new BadRequestError('Invalid property values found in provided album.')
             }
 
             const persistedAlbum = await this.albumRepo.addNew(newAlbum);
@@ -49,7 +49,7 @@ export class AlbumService {
     async updateAlbumById(albumToUpdate: Album): Promise<boolean> {
         try {
             if (!isValidObject(albumToUpdate)) {
-                throw new BadRequestError('Invalid artist provided (invalid values found).');
+                throw new BadRequestError('Invalid album provided (invalid values found).');
             }
             return await this.albumRepo.update(albumToUpdate);
         } catch (e) {
