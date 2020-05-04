@@ -77,12 +77,12 @@ export class ArtistRepository implements CrudRepository<Artist>{
         let client: PoolClient;
         try {
             client = await connectionPool.connect();
-            let sql = `delete from artist a where a.artist_id = $1`;
-            let rs = await client.query(sql);
+            let sql = `delete from artist where artist_id = $1`;
+            await client.query(sql, [id]);
             return true;
 
         } catch (e) {
-            throw (e);
+            throw new InternalServerError();
         } finally {
             client && client.release();
         }
