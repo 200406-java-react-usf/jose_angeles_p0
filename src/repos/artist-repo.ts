@@ -31,13 +31,12 @@ export class ArtistRepository implements CrudRepository<Artist>{
     async getById(id: number): Promise<Artist> {
         let client: PoolClient;
         try {
-            client = await connectionPool.connect();
-            let sql = `${this.baseQuery} where a.id = $1`;
-            let rs = await client.query(sql);
+            client = await connectionPool.connect();       
+            let sql = `${this.baseQuery} where a.artist_id = $1`; 
+            let rs = await client.query(sql, [id]); 
             return mapArtistResultSet(rs.rows[0]);
-
         } catch (e) {
-            throw (e);
+            throw new InternalServerError();
         } finally {
             client && client.release();
         }

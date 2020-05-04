@@ -26,3 +26,17 @@ ArtistRouter.get('/:id', async (req, res) => {
         return res.status(e.statusCode).json(e);
     }
 });
+
+ArtistRouter.post('', async (req, res) => {
+    console.log('POST REQUEST RECIEVED AT /artists');
+    console.log(req.body);
+
+    try {
+        let newArtist = await artistService.addNewArtist(req.body);
+        return res.status(200).json(newArtist);
+    } catch (e) {
+        return res.status(e.statusCode).json(e);
+    }
+    
+    
+});
