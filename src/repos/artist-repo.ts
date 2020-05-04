@@ -12,7 +12,7 @@ import {mapArtistResultSet} from '../util/result-set-mapper';
 
 
 export class ArtistRepository implements CrudRepository<Artist>{
-    baseQuery = `select a.artist_id, a.artist_name from artist a`;
+    baseQuery = `select * from artist`;
 
     async getAll(): Promise<Artist[]>{
         let client: PoolClient;
@@ -46,8 +46,8 @@ export class ArtistRepository implements CrudRepository<Artist>{
         let client: PoolClient;
         try {
             client = await connectionPool.connect();
-            let sql = `insert into artist (artist_name) values ($1)`;
-            let rs = await client.query(sql, [newArtist.name]); // rs = ResultSet
+            let sql = `insert into artist (artist_name, country, genre) values ($1)`;
+            let rs = await client.query(sql, [newArtist.name, newArtist.country, newArtist.genre]); // rs = ResultSet
             newArtist.id = rs.rows[0].id;
             return newArtist;
 

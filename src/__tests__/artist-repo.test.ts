@@ -57,7 +57,7 @@ describe('ArtistRepo', () => {
     test('should return an array of artists when getAll retrieves records from DB', async () =>{
         // Arrange 
         expect.hasAssertions();
-        let mockArtist = new Artist (1, 'name');
+        let mockArtist = new Artist (1, 'name', 'country', 'genre');
         (mockMapper.mapArtistResultSet as jest.Mock).mockReturnValue(mockArtist);
 
         // Act

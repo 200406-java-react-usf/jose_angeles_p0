@@ -1,12 +1,14 @@
 export interface ArtistSchema {
     artist_id: number;
     artist_name: string;
+    country: string;
+    genre: string;
 };
 
 export interface SongSchema {
     song_id: number,
     song_name: string,
-    album_id: number
+    artist_id: number
 };
 
 export interface PlaylistSchema {
