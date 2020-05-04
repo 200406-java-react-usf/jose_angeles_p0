@@ -16,3 +16,13 @@ ArtistRouter.get('', async (req, res) => {
         res.status(e.statusCode).json(e);
     }
 });
+
+ArtistRouter.get('/:id', async (req, res) => {
+    const id = +req.params.id;
+    try {
+        let payload = await artistService.getArtistsById(id);
+        return res.status(200).json(payload);
+    } catch (e) {
+        return res.status(e.statusCode).json(e);
+    }
+});
