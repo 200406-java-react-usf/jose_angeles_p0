@@ -25,7 +25,6 @@ export class SongRepository implements CrudRepository<Song>{
             client = await connectionPool.connect();
             let sql = `${this.baseQuery}`;
             let rs = await client.query(sql); // rs = ResultSet
-            console.log(rs);
             return rs.rows;
             // return rs.rows.map(mapSongResultSet);
 
@@ -55,10 +54,13 @@ export class SongRepository implements CrudRepository<Song>{
         let client: PoolClient;
         try {
             client = await connectionPool.connect();
-            let artistID = (await client.query(`select artist_id from artist where artist_name = $2`, [newSong.artist_name]));
-            console.log(artistID);
             
-            let sql = `insert into song (song_name, artist_fk) values ($1, ${+artistID}) returning song_id`;
+            let artistID = (await client.query(`select artist_id from artist where artist_name = $1`, [newSong.artist_name])).rows[0].artist_id;
+            console.log(artistID);
+            console.log(newSong.name);
+            
+            
+            let sql = `insert into song (song_name, artist_fk) values ($1, $2) returning song_id`;
             let rs = await client.query(sql, [newSong.name, artistID]); // rs = ResultSet
             newSong.id = rs.rows[0].id;
             return newSong;
@@ -74,8 +76,9 @@ export class SongRepository implements CrudRepository<Song>{
         let client: PoolClient;
         try {
             client = await connectionPool.connect();
-            let sql = `update song set song_name = $2 where song.id = $1`;
-            let rs = await client.query(sql, [updatedSong.name]);
+            let sql = `update song set song_name = $2 where song_id = $1 returning song_id`;         
+            let rs = await client.query(sql, [updatedSong.id, updatedSong.name]);
+            
             updatedSong.id = rs.rows[0].id;
             return updatedSong;
         } catch (e) {
@@ -89,9 +92,11 @@ export class SongRepository implements CrudRepository<Song>{
         let client: PoolClient;
         try {
             client = await connectionPool.connect();
-            let sql = `delete from song s where s.song_id = $1`;
-            let rs = await client.query(sql);
-            return true;
+            let sql = `delete from song where song_id = $1`;
+            console.log(id);           
+            let rs = await client.query(sql, [id]);
+            if(rs.rowCount) return true;
+            return false;
 
         } catch (e) {
             throw (e);

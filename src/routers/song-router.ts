@@ -30,6 +30,7 @@ SongRouter.post('', async (req, res) => {
 
     try {
         let newSong = await SongService.addNewSong(req.body);
+        
         return res.status(200).json(newSong);
     } catch (e) {
         return res.status(e.statusCode).json(e);
@@ -52,7 +53,7 @@ SongRouter.delete('', async (req, res) => {
     console.log(req.body);
 
     try {
-        let deletedSong = await SongService.deleteSongById(+req.body);
+        let deletedSong = await SongService.deleteSongById(req.body);
         res.status(200).json(deletedSong);
     } catch (e) {
         res.status(e.statusCode).json(e);

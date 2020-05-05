@@ -57,12 +57,22 @@ export class SongService {
         }
     }
 
-    async deleteSongById(id: number): Promise<boolean> {
+    async deleteSongById(jsonObj: object): Promise<boolean> {
+
+        
+        let keys = Object.keys(jsonObj);
+        let val = keys[0];
+        let songId = +jsonObj[val];
         try{
-            if (!isValidId(id)) {
+            if (!isValidId(songId)) {
                 throw new BadRequestError();
             }
-            return await this.SongRepo.deleteById(id);
+            let deletedSong = await this.SongRepo.deleteById(songId);
+
+            if (!deletedSong){
+                throw new ResourceNotFoundError('Song does not exist');
+            }
+            return deletedSong;
         } catch (e) {
             throw e;
         }     
