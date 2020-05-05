@@ -46,7 +46,7 @@ export class SongService {
         }
     }
 
-    async updateSongById(songToUpdate: Song): Promise<boolean> {
+    async updateSongById(songToUpdate: Song): Promise<Song> {
         try {
             if (!isValidObject(songToUpdate)) {
                 throw new BadRequestError('Invalid song provided (invalid values found).');

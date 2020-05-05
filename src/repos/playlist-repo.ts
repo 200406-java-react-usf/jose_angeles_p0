@@ -59,14 +59,14 @@ export class PlaylistRepository implements CrudRepository<Playlist>{
         }
     };
 
-    async update(updatedPlaylist: Playlist): Promise<boolean> {
+    async update(updatedPlaylist: Playlist): Promise<Playlist> {
         let client: PoolClient;
         try {
             client = await connectionPool.connect();
             let sql = `update song set song_name = $2 where song.id = $1`;
             let rs = await client.query(sql, [updatedPlaylist.name]);
             updatedPlaylist.id = rs.rows[0].id;
-            return true;
+            return updatedPlaylist;
         } catch (e) {
             throw new InternalServerError();
         } finally {

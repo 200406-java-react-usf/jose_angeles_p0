@@ -46,7 +46,7 @@ export class ArtistService {
         }
     }
 
-    async updateArtistById(artistToUpdate: Artist): Promise<boolean> {
+    async updateArtistById(artistToUpdate: Artist): Promise<Artist> {
         try {
             if (!isValidObject(artistToUpdate)) {
                 throw new BadRequestError('Invalid artist provided (invalid values found).');

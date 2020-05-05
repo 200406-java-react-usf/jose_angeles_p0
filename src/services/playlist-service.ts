@@ -46,7 +46,7 @@ export class PlaylistService {
         }
     }
 
-    async updatePlaylistById(playlistToUpdate: Playlist): Promise<boolean> {
+    async updatePlaylistById(playlistToUpdate: Playlist): Promise<Playlist> {
         try {
             if (!isValidObject(playlistToUpdate)) {
                 throw new BadRequestError('Invalid playlist provided (invalid values found).');

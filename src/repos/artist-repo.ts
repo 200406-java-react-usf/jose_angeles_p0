@@ -32,7 +32,7 @@ export class ArtistRepository implements CrudRepository<Artist>{
         let client: PoolClient;
         try {
             client = await connectionPool.connect();       
-            let sql = `${this.baseQuery} where a.artist_id = $1`; 
+            let sql = `${this.baseQuery} where artist_id = $1`; 
             let rs = await client.query(sql, [id]); 
             return mapArtistResultSet(rs.rows[0]);
         } catch (e) {
@@ -46,7 +46,7 @@ export class ArtistRepository implements CrudRepository<Artist>{
         let client: PoolClient;
         try {
             client = await connectionPool.connect();
-            let sql = `insert into artist (artist_name, country, genre) values ($1)`;
+            let sql = `insert into artist (artist_name, country, genre) values ($1, $2, $3)`;
             let rs = await client.query(sql, [newArtist.name, newArtist.country, newArtist.genre]); // rs = ResultSet
             newArtist.id = rs.rows[0].id;
             return newArtist;
@@ -58,14 +58,17 @@ export class ArtistRepository implements CrudRepository<Artist>{
         }
     };
 
-    async update(updatedArtist: Artist): Promise<boolean> {
+    async update(updatedArtist: Artist): Promise<Artist> {
         let client: PoolClient;
         try {
             client = await connectionPool.connect();
-            let sql = `update artist set artist_name = $2 where artist.id = $1`;
-            let rs = await client.query(sql, [updatedArtist.name]);
+            let sql = `update artist set artist_name = $2,
+                                     set country = $3,
+                                     set genre = $4  
+                                     where artist.id = $1`;
+            let rs = await client.query(sql, [updatedArtist.name, updatedArtist.country, updatedArtist.genre]);
             updatedArtist.id = rs.rows[0].id;
-            return true;
+            return updatedArtist;
         } catch (e) {
             throw new InternalServerError();
         } finally {
