@@ -46,8 +46,9 @@ export class ArtistRepository implements CrudRepository<Artist>{
         let client: PoolClient;
         try {
             client = await connectionPool.connect();
-            let sql = `insert into artist (artist_name, country, genre) values ($1, $2, $3)`;
+            let sql = `insert into artist (artist_name, country, genre) values ($1, $2, $3) returning artist_id`;     
             let rs = await client.query(sql, [newArtist.name, newArtist.country, newArtist.genre]); // rs = ResultSet
+            
             newArtist.id = rs.rows[0].id;
             return newArtist;
 
@@ -65,14 +66,13 @@ export class ArtistRepository implements CrudRepository<Artist>{
             let sql = `update artist set artist_name = $2,
                                      country = $3,
                                      genre = $4  
-                                     where artist_id = $1`;
+                                     where artist_id = $1 returning artist_id`;
             let rs = await client.query(sql, [updatedArtist.id, updatedArtist.name, updatedArtist.country, updatedArtist.genre]);
-            console.log(updatedArtist);  
             updatedArtist.id = rs.rows[0].id;
                      
             return updatedArtist;
         } catch (e) {
-            throw new InternalServerError();
+            throw new InternalServerError('Id doesn\'t exist in the db');
         } finally {
             client && client.release();
         }
@@ -83,8 +83,9 @@ export class ArtistRepository implements CrudRepository<Artist>{
         try {
             client = await connectionPool.connect();
             let sql = `delete from artist where artist_id = $1`;
-            await client.query(sql, [id]);
-            return true;
+            let rs = await client.query(sql, [id]);
+            if(rs.rowCount) return true;    
+            return false;
 
         } catch (e) {
             throw new InternalServerError();
