@@ -24,6 +24,7 @@ export function mapSongResultSet(resultSet: SongSchema): Song {
     return new Song (
         resultSet.song_id,
         resultSet.song_name,
+        resultSet.artist_name
     );
 };
 

@@ -12,15 +12,22 @@ import {mapSongResultSet} from '../util/result-set-mapper';
 
 
 export class SongRepository implements CrudRepository<Song>{
-    baseQuery = `select s.song_id, s.song_name from song s`;
+    baseQuery = `select s.song_id as id, 
+                        s.song_name as name, 
+                        a.artist_name 
+                        from song s 
+                        join artist a
+                        on s.artist_fk = a.artist_id`;
 
     async getAll(): Promise<Song[]>{
         let client: PoolClient;
         try {
             client = await connectionPool.connect();
-            let sql = `${this.baseQuery};`;
+            let sql = `${this.baseQuery}`;
             let rs = await client.query(sql); // rs = ResultSet
-            return rs.rows.map(mapSongResultSet);
+            console.log(rs);
+            return rs.rows;
+            // return rs.rows.map(mapSongResultSet);
 
         } catch (e) {
             throw new InternalServerError();
@@ -34,7 +41,8 @@ export class SongRepository implements CrudRepository<Song>{
             client = await connectionPool.connect();
             let sql = `${this.baseQuery} where s.song_id = $1`;
             let rs = await client.query(sql, [id]);
-            return mapSongResultSet(rs.rows[0]);
+            // return mapSongResultSet(rs.rows[0]);
+            return rs.rows[0];
 
         } catch (e) {
             throw new InternalServerError();
@@ -47,8 +55,11 @@ export class SongRepository implements CrudRepository<Song>{
         let client: PoolClient;
         try {
             client = await connectionPool.connect();
-            let sql = `insert into Song (song_name) values ($1)`;
-            let rs = await client.query(sql, [newSong.name]); // rs = ResultSet
+            let artistID = (await client.query(`select artist_id from artist where artist_name = $2`, [newSong.artist_name]));
+            console.log(artistID);
+            
+            let sql = `insert into song (song_name, artist_fk) values ($1, ${+artistID}) returning song_id`;
+            let rs = await client.query(sql, [newSong.name, artistID]); // rs = ResultSet
             newSong.id = rs.rows[0].id;
             return newSong;
 

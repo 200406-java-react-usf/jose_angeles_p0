@@ -8,7 +8,7 @@ export interface ArtistSchema {
 export interface SongSchema {
     song_id: number,
     song_name: string,
-    artist_id: number
+    artist_name: string
 };
 
 export interface PlaylistSchema {
