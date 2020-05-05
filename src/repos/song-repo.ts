@@ -65,8 +65,8 @@ export class SongRepository implements CrudRepository<Song>{
             newSong.id = rs.rows[0].id;
             return newSong;
 
-        } catch (e) {
-            throw new InternalServerError();
+        } catch (e) {   
+            throw new InternalServerError('Artist doesn\'t exist in the database');
         } finally {
             client && client.release();
         }
@@ -92,14 +92,13 @@ export class SongRepository implements CrudRepository<Song>{
         let client: PoolClient;
         try {
             client = await connectionPool.connect();
-            let sql = `delete from song where song_id = $1`;
-            console.log(id);           
+            let sql = `delete from song where song_id = $1`;        
             let rs = await client.query(sql, [id]);
             if(rs.rowCount) return true;
             return false;
 
         } catch (e) {
-            throw (e);
+            throw new ResourceNotFoundError();
         } finally {
             client && client.release();
         }

@@ -70,7 +70,7 @@ export class SongService {
             let deletedSong = await this.SongRepo.deleteById(songId);
 
             if (!deletedSong){
-                throw new ResourceNotFoundError('Song does not exist');
+                throw new ResourceNotFoundError('Song does not exist or has already been deleted');
             }
             return deletedSong;
         } catch (e) {
