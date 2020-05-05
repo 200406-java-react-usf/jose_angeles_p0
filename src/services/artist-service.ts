@@ -48,21 +48,33 @@ export class ArtistService {
 
     async updateArtistById(artistToUpdate: Artist): Promise<Artist> {
         try {
-            if (!isValidObject(artistToUpdate)) {
+            if (!isValidObject(artistToUpdate, 'id') || !isValidObject(artistToUpdate.id)) {
                 throw new BadRequestError('Invalid artist provided (invalid values found).');
             }
-            return await this.artistRepo.update(artistToUpdate);
+            if (!artistToUpdate){
+                throw new ResourceNotFoundError();
+            }
+            let persistedArtist = await this.artistRepo.update(artistToUpdate);
+            return persistedArtist;
         } catch (e) {
             throw e;
         }
     }
 
-    async deleteArtistById(id: number): Promise<boolean> {
+    async deleteArtistById(jsonObj: object): Promise<boolean> {
+        let keys = Object.keys(jsonObj);
+        let val = keys[0];
+        let artistId = +jsonObj[val];
         try{
-            if (!isValidId(id)) {
+            if (!isValidId(artistId)) {
                 throw new BadRequestError();
             }
-            return await this.artistRepo.deleteById(id);
+            let deletedArtist = await this.artistRepo.deleteById(artistId);
+
+            if (!deletedArtist){
+                throw new ResourceNotFoundError('Artist does not exist');
+            }
+            return deletedArtist;
         } catch (e) {
             throw e;
         }     

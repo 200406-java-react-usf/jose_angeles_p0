@@ -63,11 +63,13 @@ export class ArtistRepository implements CrudRepository<Artist>{
         try {
             client = await connectionPool.connect();
             let sql = `update artist set artist_name = $2,
-                                     set country = $3,
-                                     set genre = $4  
-                                     where artist.id = $1`;
-            let rs = await client.query(sql, [updatedArtist.name, updatedArtist.country, updatedArtist.genre]);
+                                     country = $3,
+                                     genre = $4  
+                                     where artist_id = $1`;
+            let rs = await client.query(sql, [updatedArtist.id, updatedArtist.name, updatedArtist.country, updatedArtist.genre]);
+            console.log(updatedArtist);  
             updatedArtist.id = rs.rows[0].id;
+                     
             return updatedArtist;
         } catch (e) {
             throw new InternalServerError();

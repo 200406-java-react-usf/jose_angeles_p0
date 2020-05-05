@@ -52,7 +52,7 @@ ArtistRouter.delete('', async (req, res) => {
     console.log(req.body);
 
     try {
-        let deletedArtirst = await artistService.deleteArtistById(+req.body);
+        let deletedArtirst = await artistService.deleteArtistById(req.body);
         res.status(200).json(deletedArtirst);
     } catch (e) {
         res.status(e.statusCode).json(e);
