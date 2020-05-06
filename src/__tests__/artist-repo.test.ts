@@ -184,8 +184,13 @@ describe('artistRepo', () => {
                 release: jest.fn()
             };
         });
+        console.log(mockArtist);
+        
 
         let result = await sut.update(mockArtist);
+
+        console.log(result);
+        
 
         expect(result).toBeTruthy();
         expect(result instanceof Artist).toBe(true);
@@ -214,153 +219,47 @@ describe('artistRepo', () => {
 
     });
 
-    // test('should return true when deleteById is given a valid id to delete', async() => {
+    test('should return true when deleteById is given a valid id to delete', async() => {
 
-    //     expect.hasAssertions();
+        expect.hasAssertions();
 
-    //     let mockCard = new Card(1, 'test', 'test', 55.5, 55.5);
-    //     (mockConnect as jest.Mock).mockImplementation(() => {
-    //         return {
-    //             query: jest.fn().mockImplementation(() => {
-    //                 return true;
-    //             }),
-    //             release: jest.fn()
-    //         };
-    //     });
+        let mockArtist = new Artist(1, 'test', 'test', 'test');
+        (mockConnect as jest.Mock).mockImplementation(() => {
+            return {
+                query: jest.fn().mockImplementation(() => {
+                    return true;
+                }),
+                release: jest.fn()
+            };
+        });
 
-    //     let result = await sut.deleteById(mockCard.id);
+        let result = await sut.deleteById(mockArtist.id);
+        
 
-    //     expect(result).toBeTruthy();
-    //     expect(result).toBe(true);
+        expect(result).toBeTruthy();
+        expect(result).toBe(true);
 
-    // });
+    });
 
-    // test('should return InternalServerError when deleteById fails to delete a card', async() => {
+    test('should return InternalServerError when deleteById fails to delete an artist', async() => {
 
-    //     expect.hasAssertions();
+        expect.hasAssertions();
 
-    //     let mockCard = new Card(1, 'test', 'test', 55.5, 55.5);
-    //     (mockConnect as jest.Mock).mockImplementation(() => {
-    //         return {
-    //             query: jest.fn().mockImplementation(() => {
-    //                 throw new Error;
-    //             }),
-    //             release: jest.fn()
-    //         };
-    //     });
+        let mockArtist = new Artist(1, 'test', 'test', 'test');
+        (mockConnect as jest.Mock).mockImplementation(() => {
+            return {
+                query: jest.fn().mockImplementation(() => {
+                    throw new Error;
+                }),
+                release: jest.fn()
+            };
+        });
 
-    //     try{
-    //         await sut.deleteById(mockCard.id);
-    //     } catch(e){
-    //         expect( e instanceof InternalServerError).toBe(true);
-    //     }
+        try{
+            await sut.deleteById(mockArtist.id);
+        } catch(e){
+            expect( e instanceof InternalServerError).toBe(true);
+        }
 
-    // });
-
-    // test('should return a card when getByName is given a valid ID', async() => {
-
-    //     expect.hasAssertions();
-
-    //     let mockCard = new Card(1, 'test', 'test', 55.5, 55.5);
-    //     (mockMapper.mapCardResultSet as jest.Mock).mockReturnValue(mockCard);
-
-    //     let result = await sut.getByName(mockCard.name);
-
-    //     expect(result).toBeTruthy();
-    //     expect(result instanceof Card).toBe(true);
-
-    // });
-
-    // test('should return a InternalServerError when getByName does not find a card with specified name  ', async() => {
-
-    //     expect.hasAssertions();
-
-    //     let mockCard = new Card(1, 'test', 'test', 55.5, 55.5);
-    //     (mockConnect as jest.Mock).mockImplementation(() => {
-    //         return {
-    //             query: jest.fn().mockImplementation(() => {
-    //                 return false;
-    //             }),
-    //             release: jest.fn()
-    //         };
-    //     });
-    //     try{
-    //         await sut.getByName(mockCard.name);
-    //     } catch(e){
-    //         expect(e instanceof InternalServerError).toBe(true);
-    //     }
-
-    // });
-
-    // test('should return a user when getByRarity is given a valid rarity', async() => {
-
-    //     expect.hasAssertions();
-
-    //     let mockCard = new Card(1, 'test', 'Legendary', 55.5, 55.5);
-    //     (mockMapper.mapCardResultSet as jest.Mock).mockReturnValue(mockCard);
-
-    //     let result = await sut.getByRarity(mockCard.rarity);
-
-    //     expect(result).toBeTruthy();
-    //     expect(result instanceof Array).toBe(true);
-
-    // });
-
-    // test('should return a user when getByRarity is given a invalid rarity ', async() => {
-
-    //     expect.hasAssertions();
-
-    //     let mockCard = new Card(1, 'test', 'test', 55.5, 55.5);
-    //     (mockConnect as jest.Mock).mockImplementation(() => {
-    //         return {
-    //             query: jest.fn().mockImplementation(() => {
-    //                 return false;
-    //             }),
-    //             release: jest.fn()
-    //         };
-    //     });
-    //     try{
-    //         await sut.getByRarity(mockCard.rarity);
-    //     } catch(e){
-    //         expect(e instanceof InternalServerError).toBe(true);
-    //     }
-
-    // });
-
-    // test('should return a user when getByUniqueKey is given valid key and value', async() => {
-
-    //     expect.hasAssertions();
-
-    //     let mockCard = new Card(1, 'test', 'test', 55.5, 55.5);
-    //     (mockMapper.mapCardResultSet as jest.Mock).mockReturnValue(mockCard);
-
-    //     let result = await sut.getCardByUniqueKey('name', mockCard.name);
-
-    //     expect(result).toBeTruthy();
-    //     expect(result instanceof Card).toBe(true);
-
-    // });
-
-    // test('should return a user when getByUniqueKey is given invalid key and value', async() => {
-
-    //     expect.hasAssertions();
-
-    //     let mockCard = new Card(1, 'test', 'test', 55.5, 55.5);
-    //     (mockConnect as jest.Mock).mockImplementation(() => {
-    //         return {
-    //             query: jest.fn().mockImplementation(() => {
-    //                 return false;
-    //             }),
-    //             release: jest.fn()
-    //         };
-    //     });
-
-    //     try{
-    //         await sut.getCardByUniqueKey('', mockCard.name);
-    //     } catch(e){
-    //         expect(e instanceof InternalServerError).toBe(true);
-    //     }
-
-    // });
-
+    });
 });

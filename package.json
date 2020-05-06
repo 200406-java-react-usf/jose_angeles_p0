@@ -5,7 +5,7 @@
   "main": "./build/index.js",
   "scripts": {
     "start": "tsc && node ./build/index.js",
-    "test": "jest",
+    "test": "jest --watch --no-cache",
     "coverage": "jest --coverage"
   },
   "repository": {
