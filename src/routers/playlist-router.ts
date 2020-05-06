@@ -1,9 +1,9 @@
 import express from 'express';
-import AppConfig from '../config/app';
+import {playlistService} from '../config/app';
 
 export const PlaylistRouter = express.Router();
 
-const PlaylistService = AppConfig.playlistService;
+const PlaylistService = playlistService;
 
 PlaylistRouter.get('', async (req, res) => {
     try {

@@ -1,6 +1,6 @@
 import {Song} from '../models/song';
 import {SongRepository} from '../repos/song-repo';
-import {isValidId, isValidString, isValidObject, isPropertyOf, isEmptyObject} from '../util/validator';
+import {isValidId, isValidStrings, isValidObject, isPropertyOf, isEmptyObject} from '../util/validator';
 import { 
     BadRequestError, 
     ResourceNotFoundError, 

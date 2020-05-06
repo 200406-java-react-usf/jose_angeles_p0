@@ -1,6 +1,6 @@
 import {Playlist} from '../models/playlist';
 import {PlaylistRepository} from '../repos/playlist-repo';
-import {isValidId, isValidString, isValidObject, isPropertyOf, isEmptyObject} from '../util/validator';
+import {isValidId, isValidStrings, isValidObject, isPropertyOf, isEmptyObject} from '../util/validator';
 import { 
     BadRequestError, 
     ResourceNotFoundError, 

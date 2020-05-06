@@ -14,7 +14,7 @@ const songService = new SongService(songRepo);
 const playlistRepo = new PlaylistRepository();
 const playlistService = new PlaylistService(playlistRepo);
 
-export default {
+export {
     artistRepo,
     artistService,
     songRepo,

@@ -1,9 +1,9 @@
 import express from 'express';
-import AppConfig from '../config/app';
+import {songService} from '../config/app';
 
 export const SongRouter = express.Router();
 
-const SongService = AppConfig.songService;
+const SongService = songService;
 
 SongRouter.get('', async (req, res) => {
     try {

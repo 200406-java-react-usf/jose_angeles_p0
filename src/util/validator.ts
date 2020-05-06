@@ -2,7 +2,7 @@ export const isValidId = (id: number): boolean => {
     return !!(id && typeof id === 'number' && Number.isInteger(id) && id > 0);
 };
 
-export const isValidString = (...strs: string[]): boolean => {
+export const isValidStrings = (...strs: string[]): boolean => {
     return (strs.filter(str => !str || typeof str !== 'string').length == 0);
 };
 
@@ -40,7 +40,7 @@ export function isEmptyObject<T>(obj: T) {
 
 export default {
     isValidId,
-    isValidString,
+    isValidStrings,
     isValidObject,
     isPropertyOf
 };
