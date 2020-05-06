@@ -17,7 +17,7 @@ export class SongRepository implements CrudRepository<Song>{
                         a.artist_name 
                         from song s 
                         join artist a
-                        on s.artist_fk = a.artist_id`;
+                        on s.artist_id = a.artist_id`;
 
     async getAll(): Promise<Song[]>{
         let client: PoolClient;

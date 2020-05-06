@@ -12,13 +12,22 @@ import {mapPlaylistResultSet} from '../util/result-set-mapper';
 
 
 export class PlaylistRepository implements CrudRepository<Playlist>{
-    baseQuery = `select playlist_id, playlist_name from playlist`;
+    baseQuery = `select p.playlist_id as id, 
+                        s.song_name as tracks,
+                        p.playlist_name as name, 
+                        p.playlist_desc as description
+                        from playlist p 
+                        join tracker t
+                        on p.playlist_id = t.playlist_id
+                        join song s
+                        on s.song_id = t.song_id
+                        `;
 
     async getAll(): Promise<Playlist[]>{
         let client: PoolClient;
         try {
             client = await connectionPool.connect();
-            let sql = `${this.baseQuery};`;
+            let sql = `select * from playlist`;
             let rs = await client.query(sql); // rs = ResultSet
             return rs.rows.map(mapPlaylistResultSet);
 

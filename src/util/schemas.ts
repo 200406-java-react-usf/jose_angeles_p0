@@ -14,5 +14,6 @@ export interface SongSchema {
 export interface PlaylistSchema {
     playlist_id: number,
     playlist_name: string,
-    playlist_desc: string
+    playlist_desc: string,
+    playlist_songs: string[]
 };
