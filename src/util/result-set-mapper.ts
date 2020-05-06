@@ -35,8 +35,8 @@ export function mapPlaylistResultSet(resultSet: PlaylistSchema): Playlist {
 
     return new Playlist (
         resultSet.playlist_id,
-        resultSet.playlist_name,
-        resultSet.playlist_desc,
-        resultSet.playlist_songs
+        resultSet.playlist_name,   
+        resultSet.playlist_songs,
+        resultSet.playlist_desc
     );
 }

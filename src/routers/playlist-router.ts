@@ -36,6 +36,18 @@ PlaylistRouter.post('', async (req, res) => {
     }  
 });
 
+PlaylistRouter.post('/addSong', async (req, res) => {
+    console.log('POST REQUEST RECIEVED AT /playlists/addSong');
+    console.log(req.body);
+
+    try {
+        let addSong = await PlaylistService.addSongToPlaylist(req.body);
+        return res.status(200).json(addSong);
+    } catch (e) {
+        return res.status(e.statusCode).json(e);
+    }  
+});
+
 PlaylistRouter.put('', async (req, res) => {
     console.log('PUT REQUEST RECEIVED AT /playlists');
     console.log(req.body);
@@ -52,8 +64,20 @@ PlaylistRouter.delete('', async (req, res) => {
     console.log(req.body);
 
     try {
-        let deletedPlaylist = await PlaylistService.deletePlaylistById(+req.body);
+        let deletedPlaylist = await PlaylistService.deletePlaylistById(req.body);
         res.status(200).json(deletedPlaylist);
+    } catch (e) {
+        res.status(e.statusCode).json(e);
+    }  
+});
+
+PlaylistRouter.delete('/delete', async (req, res) => {
+    console.log('DELETE REQUEST RECEIVED AT /playlists/delete');
+    console.log(req.body);
+
+    try {
+        let deletedSong = await PlaylistService.deleteSongFromPlaylist(req.body);
+        res.status(200).json(deletedSong);
     } catch (e) {
         res.status(e.statusCode).json(e);
     }  

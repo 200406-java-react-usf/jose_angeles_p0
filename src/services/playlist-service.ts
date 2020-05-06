@@ -22,7 +22,7 @@ export class PlaylistService {
         return playlists;
     };
 
-    async getPlaylistById(id: number): Promise<Playlist> {
+    async getPlaylistById(id: number): Promise<Playlist[]> {
         if (!isValidId(id)) {
             throw new BadRequestError();
         }
@@ -46,6 +46,14 @@ export class PlaylistService {
         }
     }
 
+    async addSongToPlaylist(addSong: Playlist): Promise<Playlist[]> {
+        if (!isValidObject(addSong, 'id')) {
+            throw new BadRequestError();
+        }
+        let playlist = await this.PlaylistRepo.addSong(addSong);
+        return playlist;
+    }
+
     async updatePlaylistById(playlistToUpdate: Playlist): Promise<Playlist> {
         try {
             if (!isValidObject(playlistToUpdate)) {
@@ -57,14 +65,42 @@ export class PlaylistService {
         }
     }
 
-    async deletePlaylistById(id: number): Promise<boolean> {
+    async deletePlaylistById(jsonObj: object): Promise<boolean> {
+        let keys = Object.keys(jsonObj);
+        let val = keys[0];
+        let playlistID = +jsonObj[val];
         try{
-            if (!isValidId(id)) {
+            if (!isValidId(playlistID)) {
                 throw new BadRequestError();
             }
-            return await this.PlaylistRepo.deleteById(id);
+            let deletedPlaylist = await this.PlaylistRepo.deleteById(playlistID);
+
+            if (!deletedPlaylist){
+                throw new ResourceNotFoundError('Playlist does not exist or has already been deleted');
+            }
+            return deletedPlaylist;
         } catch (e) {
             throw e;
-        }     
+        }    
+    }
+
+    async deleteSongFromPlaylist(song: Playlist): Promise<boolean> {
+        // let keys = Object.keys(jsonObj);
+        // let val = keys[0];
+        // let songID = +jsonObj[val];
+        let songID = song.songs[0];
+        try{
+            if (!isValidId(song.songs[0])) {
+                throw new BadRequestError();
+            }
+            let deletedSong = await this.PlaylistRepo.removeSong(song);
+
+            if (!deletedSong){
+                throw new ResourceNotFoundError('Song does not exist or has already been deleted');
+            }
+            return deletedSong;
+        } catch (e) {
+            throw e;
+        }    
     }
 }
