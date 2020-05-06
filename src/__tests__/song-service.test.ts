@@ -1,10 +1,10 @@
-import { ArtistService } from '../services/artist-service';
-import { ArtistRepository } from '../repos/artist-repo';
-import { Artist } from '../models/artist';
+import { SongService } from '../services/song-service';
+import { SongRepository } from '../repos/song-repo';
+import { Song } from '../models/song';
 import Validator from '../util/validator';
 import { ResourceNotFoundError, BadRequestError } from '../errors/errors';
 
-jest.mock('../repos/artist-repo', () => {
+jest.mock('../repos/song-repo', () => {
     
     return new class ArtistRepository {
             getAll = jest.fn();
@@ -15,17 +15,17 @@ jest.mock('../repos/artist-repo', () => {
     }
 
 });
-describe('artistService', () => {
+describe('songService', () => {
 
-    let sut: ArtistService;
+    let sut: SongService;
     let mockRepo;
 
-    let mockArtists = [
-        new Artist(1, 'Drake', 'Canada', 'Rap'),
-        new Artist(2, 'Eminem', 'US', 'Rap'),
-        new Artist(3, 'Taylor Swift', 'US', 'Pop'),
-        new Artist(4, 'Linkin Park', 'US', 'Rock'),
-        new Artist(5, 'Ed Sheeran', 'England', 'Pop'),
+    let mockSongs = [
+        new Song(1, 'Take care', 'Drake'),
+        new Song(2, 'Fireworks', 'Drake'),
+        new Song(3, 'The ringer', 'Eminem'),
+        new Song(4, 'Taylor Swift', 'Shake it off'),
+        new Song(5, 'Linkin Park', 'In the end'),
     ];
 
     beforeEach(() => {
@@ -41,18 +41,18 @@ describe('artistService', () => {
         });
 
         // @ts-ignore
-        sut = new ArtistService(mockRepo);
+        sut = new SongService(mockRepo);
     
     });
 
-    test('should resolve to Artist[] when getAllUsers() successfully retrieves artists from the data source', async () => {
+    test('should resolve to Songs[] when getAllUsers() successfully retrieves songs from the data source', async () => {
 
         // Arrange
         expect.hasAssertions();
-        mockRepo.getAll = jest.fn().mockReturnValue(mockArtists);
+        mockRepo.getAll = jest.fn().mockReturnValue(mockSongs);
 
         // Act
-        let result = await sut.getAllArtists();
+        let result = await sut.getAllSongs();
 
         // Assert
         expect(result).toBeTruthy();
@@ -67,7 +67,7 @@ describe('artistService', () => {
 
         // Act
         try {
-            await sut.getAllArtists();
+            await sut.getAllSongs();
         } catch (e) {
 
             // Assert
@@ -76,7 +76,7 @@ describe('artistService', () => {
 
     });
 
-    test('should resolve to Artist when getArtistById is given a valid an known id', async () => {
+    test('should resolve to Song when getSongtById is given a valid an known id', async () => {
 
         // Arrange
         expect.assertions(2);
@@ -84,12 +84,12 @@ describe('artistService', () => {
         Validator.isValidId = jest.fn().mockReturnValue(true);
 
         mockRepo.getById = jest.fn().mockImplementation((id: number) => {
-            return new Promise<Artist>((resolve) => resolve(mockArtists[id - 1]));
+            return new Promise<Song>((resolve) => resolve(mockSongs[id - 1]));
         });
 
 
         // Act
-        let result = await sut.getArtistsById(1);
+        let result = await sut.getSongsById(1);
 
         // Assert
         expect(result).toBeTruthy();
@@ -97,7 +97,7 @@ describe('artistService', () => {
 
     });
 
-    test('should reject with BadRequestError when getArtistById is given a invalid value as an id (decimal)', async () => {
+    test('should reject with BadRequestError when getSongById is given a invalid value as an id (decimal)', async () => {
 
         // Arrange
         expect.hasAssertions();
@@ -105,7 +105,7 @@ describe('artistService', () => {
 
         // Act
         try {
-            await sut.getArtistsById(3.14);
+            await sut.getSongsById(3.14);
         } catch (e) {
 
             // Assert
@@ -114,7 +114,7 @@ describe('artistService', () => {
 
     });
 
-    test('should reject with BadRequestError when getArtistById is given an invalid value as an id (zero)', async () => {
+    test('should reject with BadRequestError when getSongById is given an invalid value as an id (zero)', async () => {
 
         // Arrange
         expect.hasAssertions();
@@ -122,7 +122,7 @@ describe('artistService', () => {
 
         // Act
         try {
-            await sut.getArtistsById(0);
+            await sut.getSongsById(0);
         } catch (e) {
 
             // Assert
@@ -131,7 +131,7 @@ describe('artistService', () => {
 
     });
 
-    test('should reject with BadRequestError when getArtistById is given an invalid value as an id (NaN)', async () => {
+    test('should reject with BadRequestError when getSongById is given an invalid value as an id (NaN)', async () => {
 
         // Arrange
         expect.hasAssertions();
@@ -139,7 +139,7 @@ describe('artistService', () => {
 
         // Act
         try {
-            await sut.getArtistsById(NaN);
+            await sut.getSongsById(NaN);
         } catch (e) {
 
             // Assert
@@ -148,7 +148,7 @@ describe('artistService', () => {
 
     });
 
-    test('should reject with BadRequestError when getArtistById is given a invalid value as an id (negative)', async () => {
+    test('should reject with BadRequestError when getSongById is given a invalid value as an id (negative)', async () => {
 
         // Arrange
         expect.hasAssertions();
@@ -156,7 +156,7 @@ describe('artistService', () => {
 
         // Act
         try {
-            await sut.getArtistsById(-2);
+            await sut.getSongsById(-2);
         } catch (e) {
 
             // Assert
@@ -173,7 +173,7 @@ describe('artistService', () => {
 
         // Act
         try {
-            await sut.getArtistsById(9999);
+            await sut.getSongsById(9999);
         } catch (e) {
 
             // Assert
